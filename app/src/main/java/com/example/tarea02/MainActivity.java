@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         String proposito = etProposito.getText().toString().trim();
         String dni = etDni.getText().toString().trim();
 
-        //  validar nombre (solo letras y espacios, no permite números ni símbolos)
+        //  validar nombre (solo letras y espacios, no permite números )
         if (TextUtils.isEmpty(nombre)) {
             etNombre.setError("Ingresa el nombre");
             etNombre.requestFocus();
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // vlidar propósito (no debe ccntener solo numeros)
+        // validar propósito (no debe ccntener solo números)
         if (TextUtils.isEmpty(proposito)) {
             etProposito.setError("Ingresa el propósito");
             etProposito.requestFocus();
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             containerVisitas.addView(nuevaVisita);
         }
 
-        // 6. Mensaje de éxito y limpiar entradas
+        // mensaje de éxito y limpiar entradas
         Toast.makeText(this, "Visita registrada con éxito", Toast.LENGTH_SHORT).show();
         limpiarCampos();
     }
