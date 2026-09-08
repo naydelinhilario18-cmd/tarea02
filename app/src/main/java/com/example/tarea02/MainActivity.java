@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
     private EditText etNombre, etEmpresa, etProposito, etDni;
     private Button btnRegistrar;
     private LinearLayout containerVisitas;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         etNombre = findViewById(R.id.etNombre);
         etEmpresa = findViewById(R.id.etEmpresa);
         etProposito = findViewById(R.id.etProposito);
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         btnRegistrar = findViewById(R.id.btnRegistrar);
         containerVisitas = findViewById(R.id.containerVisitas);
 
-        // configurar al momento que el boton de registrar
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,56 +37,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registrarVisita() {
-        // Obtener valores ingresados sin espacios adicionales
         String nombre = etNombre.getText().toString().trim();
         String empresa = etEmpresa.getText().toString().trim();
         String proposito = etProposito.getText().toString().trim();
         String dni = etDni.getText().toString().trim();
 
-        //  validar nombre (solo letras y espacios, no permite números )
+        // nombre
         if (TextUtils.isEmpty(nombre)) {
             etNombre.setError("Ingresa el nombre");
             etNombre.requestFocus();
             return;
         }
-        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
-            etNombre.setError("El nombre solo debe contener letras");
-            etNombre.requestFocus();
-            return;
+
+        for (int i = 0; i < nombre.length(); i++) {
+            char c = nombre.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                etNombre.setError("El nombre solo debe tener letras");
+                etNombre.requestFocus();
+                return;
+            }
         }
 
-        // validar empresa
+        // empresa
         if (TextUtils.isEmpty(empresa)) {
             etEmpresa.setError("Ingresa la empresa");
             etEmpresa.requestFocus();
             return;
         }
 
-        // validar propósito (no debe ccntener solo números)
+        // proposito
         if (TextUtils.isEmpty(proposito)) {
             etProposito.setError("Ingresa el propósito");
             etProposito.requestFocus();
             return;
         }
-        if (proposito.matches("[0-9]+")) {
-            etProposito.setError("El propósito no puede contener solo números");
+
+        boolean tieneLetra = false;
+        for (int i = 0; i < proposito.length(); i++) {
+            if (Character.isLetter(proposito.charAt(i))) {
+                tieneLetra = true;
+                break;
+            }
+        }
+
+        if (!tieneLetra) {
+            etProposito.setError("El propósito no puede ser solo números");
             etProposito.requestFocus();
             return;
         }
 
-        // dni (debe tener 8 digitos)
+        // dni
         if (TextUtils.isEmpty(dni)) {
             etDni.setError("Ingresa el DNI");
             etDni.requestFocus();
             return;
         }
-        if (dni.length() != 8 || !dni.matches("[0-9]+")) {
-            etDni.setError("El DNI debe tener exactamente 8 números");
+
+        if (dni.length() != 8) {
+            etDni.setError("El DNI debe tener 8 dígitos");
             etDni.requestFocus();
             return;
         }
 
-        // vista de la lista
+        // registro
         if (containerVisitas != null) {
             TextView nuevaVisita = new TextView(this);
             nuevaVisita.setText("• " + nombre + " - " + empresa + " (" + proposito + ")");
@@ -96,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             containerVisitas.addView(nuevaVisita);
         }
 
-        // mensaje de éxito y limpiar entradas
         Toast.makeText(this, "Visita registrada con éxito", Toast.LENGTH_SHORT).show();
         limpiarCampos();
     }
