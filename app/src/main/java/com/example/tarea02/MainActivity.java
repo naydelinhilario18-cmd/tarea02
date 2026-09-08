@@ -11,8 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    // Declaración de variables de la interfaz
     private EditText etNombre, etEmpresa, etProposito, etDni;
     private Button btnRegistrar;
     private LinearLayout containerVisitas;
@@ -21,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // 1. Vincular los elementos del XML con Java
         etNombre = findViewById(R.id.etNombre);
         etEmpresa = findViewById(R.id.etEmpresa);
         etProposito = findViewById(R.id.etProposito);
@@ -30,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btnRegistrar = findViewById(R.id.btnRegistrar);
         containerVisitas = findViewById(R.id.containerVisitas);
 
-        // 2. Configurar el evento al presionar el botón REGISTRAR VISITA
+        // configurar al momento que el boton de registrar
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,45 +36,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registrarVisita() {
-        // Obtener los valores ingresados
+        // Obtener valores ingresados sin espacios adicionales
         String nombre = etNombre.getText().toString().trim();
         String empresa = etEmpresa.getText().toString().trim();
         String proposito = etProposito.getText().toString().trim();
         String dni = etDni.getText().toString().trim();
 
-        // 1. Validar campos vacíos con alerta en pantalla
+        //  validar nombre (solo letras y espacios, no permite números ni símbolos)
         if (TextUtils.isEmpty(nombre)) {
             etNombre.setError("Ingresa el nombre");
             etNombre.requestFocus();
             return;
         }
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
+            etNombre.setError("El nombre solo debe contener letras");
+            etNombre.requestFocus();
+            return;
+        }
 
+        // validar empresa
         if (TextUtils.isEmpty(empresa)) {
             etEmpresa.setError("Ingresa la empresa");
             etEmpresa.requestFocus();
             return;
         }
 
+        // vlidar propósito (no debe ccntener solo numeros)
         if (TextUtils.isEmpty(proposito)) {
             etProposito.setError("Ingresa el propósito");
             etProposito.requestFocus();
             return;
         }
+        if (proposito.matches("[0-9]+")) {
+            etProposito.setError("El propósito no puede contener solo números");
+            etProposito.requestFocus();
+            return;
+        }
 
+        // dni (debe tener 8 digitos)
         if (TextUtils.isEmpty(dni)) {
             etDni.setError("Ingresa el DNI");
             etDni.requestFocus();
             return;
         }
-
-        // 2. Validar que el DNI sea exactamente de 8 dígitos
-        if (dni.length() != 8) {
-            etDni.setError("El DNI debe tener exactamente 8 dígitos");
+        if (dni.length() != 8 || !dni.matches("[0-9]+")) {
+            etDni.setError("El DNI debe tener exactamente 8 números");
             etDni.requestFocus();
             return;
         }
 
-        // 3. Agregar la visita a la lista dinámicamente
+        // vista de la lista
         if (containerVisitas != null) {
             TextView nuevaVisita = new TextView(this);
             nuevaVisita.setText("• " + nombre + " - " + empresa + " (" + proposito + ")");
@@ -89,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             containerVisitas.addView(nuevaVisita);
         }
 
-        // Notificación de éxito y limpieza de los campos
+        // 6. Mensaje de éxito y limpiar entradas
         Toast.makeText(this, "Visita registrada con éxito", Toast.LENGTH_SHORT).show();
         limpiarCampos();
     }
@@ -99,6 +106,6 @@ public class MainActivity extends AppCompatActivity {
         etEmpresa.setText("");
         etProposito.setText("");
         etDni.setText("");
-        etNombre.requestFocus(); // Regresa el cursor al primer campo
+        etNombre.requestFocus();
     }
 }

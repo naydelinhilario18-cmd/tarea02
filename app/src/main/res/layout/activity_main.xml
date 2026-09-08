@@ -28,7 +28,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- Campo 1: NOMBRE -->
+        <!-- Nombre -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:textColor="#0F172A"
             android:textSize="17sp" />
 
-        <!-- Campo 2: EMPRESA -->
+        <!-- Empresa -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:textColor="#0F172A"
             android:textSize="17sp" />
 
-        <!-- Campo 3: PROPÓSITO -->
+        <!-- Propósito -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
             android:textColor="#0F172A"
             android:textSize="17sp" />
 
-        <!-- Campo 4: DNI -->
+        <!--dni-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -143,7 +143,8 @@
             android:textColor="#FFFFFF"
             android:textSize="17sp"
             android:textStyle="bold" />
-        <!-- Sección inferior: VISITAS ACTIVAS -->
+
+        <!-- vistas activas -->
         <TextView
             android:id="@+id/tvTituloVisitas"
             android:layout_width="wrap_content"
@@ -155,7 +156,7 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- Contenedor donde se irán agregando las visitas desde el código -->
+        <!-- Contenedor donde estaran las visitas-->
         <LinearLayout
             android:id="@+id/containerVisitas"
             android:layout_width="match_parent"
